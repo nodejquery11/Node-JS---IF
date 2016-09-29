@@ -1,0 +1,78 @@
+How to create code to append the string?
+With JSON:- 29/09/2016
+var jsonFile = require('jsonFile');
+
+var jsonFile.readFile('file_path', function(err, objVal){
+  var obj = {
+      table: []
+    };
+  if(err){
+   obj.table.push({'name':'vikas'});
+   var json = JSON.stringify();
+  }else{
+   var val = JSON.parse(objVal);
+   obj.table.push({'name':'vikas 01'});
+   var json = JSON.stringify(val);
+   jsonFile.writeFileSync('file_path', json, {spaces: 2})
+  }
+});
+*******************************************************************************************************************
+If this json file won't become too big over the time you should try:
+
+Create a javascript object with the table array in it
+var obj = {
+   table: []
+};
+Add some data to it like
+obj.table.push({id: 1, square:2});
+Convert it to a json
+var json = JSON.stringify(obj);
+use fs to write the file to disk
+fs.writeFile('myjsonfile.json', json, 'utf8', callback);
+if you want to append it read the json file and convert it back to an object
+fs.readFile('/etc/passwd', 'utf8', function readFileCallback(err, data){
+    if (err){
+        console.log(err);
+    } else {
+    obj = JSON.parse(data); //now it an object
+    obj.table.push({id: 2, square:3}); //add some data
+    json = JSON.stringify(obj); //convert it back to json
+    fs.writeFile('myjsonfile.json', json, 'utf8', callback); // write it back 
+}});
+
+*******************************************************************************************************************
+you should read the file, every time you want to add a new property to the json, and then add the the new properties
+
+var fs = require('fs');
+fs.readFile('data.json',function(err,content){
+  if(err) throw err;
+  var parseJson = JSON.parse(content);
+  for (i=0; i <11 ; i++){
+   parseJson.table.push({id:i, square:i*i})
+  }
+  fs.writeFile('data.json',JSON.stringify(parseJson),function(err){
+    if(err) throw err;
+  })
+})
+
+*******************************************************************************************************************
+For formatting jsonfile gives spaces option which you can pass as a parameter:
+
+   jsonfile.writeFile(file, obj, {spaces: 2}, function (err) {
+         console.error(err);
+   })
+Or use jsonfile.spaces = 4. Read details here.
+
+I would not suggest writing to file each time in the loop, instead construct the JSON object in the loop and write to file outside the loop.
+
+var jsonfile = require('jsonfile');
+var obj={
+     'table':[]
+    };
+
+for (i=0; i <11 ; i++){
+       obj.table.push({"id":i,"square":i*i});
+}
+jsonfile.writeFile('loop.json', obj, {spaces:2}, function(err){
+      console.log(err);
+});
