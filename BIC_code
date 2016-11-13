@@ -1,0 +1,14 @@
+//Node Js - read json file and return the data
+var fs = require('fs');
+/*var country_code = ["ky"];
+var readJson = fs.readFile("read-json-file.json", function(err, data){
+   obj = JSON.parse(data);
+   console.log("vikas "+obj.country_code.title);
+});*/
+
+var readJson = fs.readFile("read-json-file.json", function(err, data){
+   	  obj = JSON.parse(data);
+   	  return obj.ky.title;
+  });
+var state = "ky";
+var statVal = readJson;
