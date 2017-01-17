@@ -1,1 +1,84 @@
+Link: 
+1. http://rextester.com/l/nodejs_online_compiler
+2. https://www.sitepoint.com/beginners-guide-node-package-manager/
+3. https://darrenderidder.github.io/talks/ModulePatterns/#/1
+4. http://javascript.info/tutorial/inheritance#object-create-object-getprototypeof
+
 Asserts
+================================================**********************======================================
+Buffer:
+The difference between version 4.2.6 and current v6;
+> In the previous version we don't have prototypal inheritance in `Buffer` module. However in V6 and above, we have prototypal inheritance. Which make easy to access the define functions. For example
+var buffer = require('buffer'); //v4.x.x // if we need to access the `Global variable` then we must use const buf = New Buffer;
+var buffer = require('buffer').Buffer; //v6.x.x //where `Buffer` is the `Global variable`
+> Added new function and fetures 
+Buffer.alloc(10) & Buffer.alloc(10, 1) [first argument contain the length of buffer & next argument to fill with object],
+Buffer.form(string/array, 'ascii'&'utf8') [The Buffer will contain the string values as `ascii` format], 
+Buffer.allocUnsafe(10)[Create uninitialize buffer of length. If it contains the old data then overwrite using eiter fill() or write() function. More faster then alloc() function]
+
+*---------------------------------------------------------------------------------------------------------*
+Object Prototype:
+All JS object inherit the properties and mehtod using `prototype` either litteral or new object. Diffetent type of or step of declaring the prototype in JS
+1. Creating the prototype using object constructor function
+function Person(first, last, age, eyecolor){
+  this.first = first;
+  this.last = last;
+  this.age = age;
+  this.eyecolor = eyecolor;
+}
+var myMother = New Person('Jyoti','bose','55','black');
+
+1.1. Access the values of prototype
+myMother.name etc
+1.2. Adding property to prototype [Not possible::error-undefined]
+Person.Address = 'Jabalpur';
+But
+function Person(first, last, age, eyecolor){
+  this.first = first;
+  this.last = last;
+  this.age = age;
+  this.eyecolor = eyecolor;
+  this.Address = 'Jabalpur';
+}
+OR
+`Prototype` property allow you to directly add the property into existing prototype
+Person.prototype.Address = 'Jabalpur';
+1.3. Adding method to prototype
+function Person(first, last, age, eyecolor){
+  this.first = first;
+  this.last = last;
+  this.age = age;
+  this.eyecolor = eyecolor;
+  this.fullName = function(){
+    return this.first+' '+this.last;
+  };
+}
+OR
+`Prototype` property allow you to directly add the method into existing prototype
+myMother.prototype.fullName = function(){
+  return this.first+' '+this.last;
+}
+
+2.1. Adding the property to an object
+myMother.Address = 'Jabalpur';
+2.2. Adding method in to prototype
+myMother.fullName = function(){
+  return this.first+' '+this.last;
+}
+
+Note:
+If you use the constructor function then u need to access it via `New` keyword.
+*---------------------------------------------------------------------------------------------------------*
+
+var buf = new Buffer(10);
+var len = buf.write("Simply Easy Learning");
+console.log("Octets written : "+  len); //find the length of buffer or else string :: Octets written : 10
+console.log("Octets written H: "+  buf.toString('ascii')); //display the char, which store in the buffer :: Octets written H: Simply Eas
+
+
+
+Note:
+Piror version of node v6, `Buffer` instance were created using buffer constructor function. <div style="color:blue">Please look at line #6 </div>
+
+What makes Buffer.allocUnsafe() and Buffer.allocUnsafeSlow() "unsafe"?
+
